@@ -11,10 +11,6 @@ import com.google.firebase.auth.FirebaseAuth
 
 class AuthActivity : AppCompatActivity() {
 
-    //private val btnSignup : Button = findViewById(R.id.btnSignup)
-    //private val btnLogin : Button = findViewById(R.id.btnLogin)
-    //private val etEmail : TextView = findViewById(R.id.etEmailLogin)
-    //private val etPassword : TextView = findViewById(R.id.etContraseña)
     private lateinit var binding : ActivityAuthBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,11 +25,12 @@ class AuthActivity : AppCompatActivity() {
         title = "Autenticación"
 
         binding.btnSignup.setOnClickListener {
-            if (binding.etEmailLogin.text.isNotEmpty() && binding.etPassword.text.isNotEmpty()) {
+
+            if (binding.txtEmail.text.toString().isNotEmpty() && binding.txtPasword?.text.toString().isNotEmpty()) {
                 FirebaseAuth.getInstance()
                     .createUserWithEmailAndPassword(
-                        binding.etEmailLogin.text.toString(),
-                        binding.etPassword.text.toString()
+                        binding.txtEmail.text.toString(),
+                        binding.txtPasword.text.toString()
                     ).addOnCompleteListener {
                         if (it.isSuccessful) {
                             showHome(it.result?.user?.email ?: "")
@@ -45,11 +42,11 @@ class AuthActivity : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener {
-            if (binding.etEmailLogin.text.isNotEmpty() && binding.etPassword.text.isNotEmpty()) {
+            if (binding.txtEmail.text.toString().isNotEmpty() && binding.txtPasword.text.toString().isNotEmpty()) {
                 FirebaseAuth.getInstance()
                     .signInWithEmailAndPassword(
-                        binding.etEmailLogin.text.toString(),
-                        binding.etPassword.text.toString()
+                        binding.txtEmail.text.toString(),
+                        binding.txtPasword.text.toString()
                     ).addOnCompleteListener {
                         if (it.isSuccessful) {
                             showHome(it.result?.user?.email ?: "")
@@ -72,7 +69,7 @@ class AuthActivity : AppCompatActivity() {
 
     private fun showHome(email: String) {
         val homeIntent : Intent = Intent(this, MainActivity::class.java).apply {
-            putExtra("email", binding.etEmailLogin.text.toString())
+            putExtra("email", binding.txtEmail.text.toString())
         }
         startActivity(homeIntent)
     }
