@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "263360218935",
+    "firebase_url": "https://saludapi-default-rtdb.firebaseio.com",
+    "project_id": "saludapi",
+    "storage_bucket": "saludapi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:263360218935:android:d93543d6c3e06c4166fcb2",
+        "android_client_info": {
+          "package_name": "com.android.saludable"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "263360218935-ksragam40jrac703tofglkntm55qn6rg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPODKDkh5rksJe_U6ze4k5pDzNOb5idtI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "263360218935-ksragam40jrac703tofglkntm55qn6rg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

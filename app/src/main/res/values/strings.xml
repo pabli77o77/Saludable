@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">Saludable</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+    //strings Login
+    <string name="tvlogin">Login</string>
+    <string name="emailLogin">Ingrese su email</string>
+    <string name="contraseñaLogin">Ingrese su contraseña</string>
+
+    //strings Home
+    <string name="bienvenido">Bienvenido</string>
+
+    //Buttons
+    <string name="signup">Registrarse</string>
+    <string name="login">Acceder</string>
+    <string name="logout">Logout</string>
+
+    //strings Registro
+    <string name="tipoComida">Tipo de comida</string>
+    <string name="comidaPrincipal">Comida principal</string>
+    <string name="comidaSecundaria">Comida secundaria</string>
+    <string name="bebida">Bebida</string>
+    <string name="preguntaPostre">¿Ingirió postre?</string>
+    <string name="postre">Postre</string>
+    <string name="preguntaTentacion">¿Tuvo tentación de ingerir otro alimento?</string>
+    <string name="alimentoTentacion">Alimento que quería ingerir</string>
+    <string name="preguntaHambre">¿Se quedó con hambre?</string>
+    <string name="desayuno">Desayuno</string>
+    <string name="almuerzo">Almuerzo</string>
+    <string name="merienda">Merienda</string>
+    <string name="cena">Cena</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+
+    // Navigation drawer
+    <string name="navigation_drawer_open">"open"</string>
+    <string name="navigation_drawer_close">"close"</string>
+
+</resources>
