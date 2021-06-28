@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.android.saludable.databinding.ActivityAuthBinding
@@ -33,6 +34,7 @@ class AuthActivity : AppCompatActivity() {
                         binding.txtPasword.text.toString()
                     ).addOnCompleteListener {
                         if (it.isSuccessful) {
+                            // Guardo el id en las Shared Preference
                             showHome(it.result?.user?.email ?: "")
                         } else {
                             showAlert()
@@ -49,6 +51,8 @@ class AuthActivity : AppCompatActivity() {
                         binding.txtPasword.text.toString()
                     ).addOnCompleteListener {
                         if (it.isSuccessful) {
+                            // Ahora puedo guardar el Uid en las shared_preference y usarlo cuando lo necesite
+                            Toast.makeText(applicationContext, "Uid: ${it.result?.user?.uid}", Toast.LENGTH_SHORT).show()
                             showHome(it.result?.user?.email ?: "")
                         } else {
                             showAlert()

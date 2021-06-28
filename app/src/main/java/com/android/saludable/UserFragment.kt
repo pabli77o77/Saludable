@@ -23,6 +23,7 @@ class UserFragment : Fragment() {
     private val binding get() = _binding!!
     lateinit var sexo : String
     private lateinit var db : DatabaseReference
+    private lateinit var paciente: PacienteDataSource
 
     override fun onResume() {
         super.onResume()
@@ -40,7 +41,6 @@ class UserFragment : Fragment() {
         _binding = FragmentUserBinding.inflate(inflater, container, false)
         return binding.root
 
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,30 +56,47 @@ class UserFragment : Fragment() {
         getTipoTratamiento()
 
         btnGuardar.setOnClickListener {
+            paciente.id = db.push().key
+            val nombre = binding.etNombre.text.toString()
+            val apellido = binding.etApellido.text.toString()
+            val dni = binding.etDni.text.toString()
+            val sexo = sexo
+            val localidad = binding.etLocalidad.text.toString()
+            val fechaNacimiento = binding.etFechaNacimiento.text.toString()
+            val tipoTratamiento = binding.actvTipoTratamiento.text.toString()
+            val usuario = paciente.id!!//"HAKWDAUIK9bhV7gRzLWPddFGUux1"
 
-            try {
-                val nombre = binding.etNombre.text.toString()
-                val apellido = binding.etApellido.text.toString()
-                val dni = binding.etDni.text.toString()
-                val sexo = sexo
-                val localidad = binding.etLocalidad.text.toString()
-                val fechaNacimiento = binding.etFechaNacimiento.text.toString()
-                val tipoTratamiento = binding.actvTipoTratamiento.text.toString()
-                val usuario = "HAKWDAUIK9bhV7gRzLWPddFGUux1"
+            db = FirebaseDatabase.getInstance().getReference("paciente")
+            val paciente = PacienteDataSource(nombre, apellido, dni, sexo, fechaNacimiento, localidad, tipoTratamiento, usuario)
+            db.child(usuario).setValue(paciente).addOnSuccessListener {
 
-                db = FirebaseDatabase.getInstance().getReference("paciente")
-                val paciente = PacienteDataSource(nombre, apellido, dni, sexo, fechaNacimiento, localidad, tipoTratamiento, usuario)
-                db.child(usuario).setValue(paciente).addOnSuccessListener {
+                Toast.makeText(context, "Datos guardados OK", Toast.LENGTH_SHORT).show()
 
-                    Toast.makeText(context, "Datos guardados OK", Toast.LENGTH_SHORT).show()
-
-                }.addOnFailureListener {
-                    Toast.makeText(context, "Los datos no se guardaron", Toast.LENGTH_SHORT).show()
-                }
-            }catch (e:Exception) {
-                Toast.makeText(context, "Error ${e.message}", Toast.LENGTH_SHORT).show()
+            }.addOnFailureListener {
+                Toast.makeText(context, "Los datos no se guardaron", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
 
+    private fun storeUserData(paciente: PacienteDataSource) {
+        paciente.id = db.push().key
+        val nombre = binding.etNombre.text.toString()
+        val apellido = binding.etApellido.text.toString()
+        val dni = binding.etDni.text.toString()
+        val sexo = sexo
+        val localidad = binding.etLocalidad.text.toString()
+        val fechaNacimiento = binding.etFechaNacimiento.text.toString()
+        val tipoTratamiento = binding.actvTipoTratamiento.text.toString()
+        val usuario = paciente.id!!//"HAKWDAUIK9bhV7gRzLWPddFGUux1"
+
+        db = FirebaseDatabase.getInstance().getReference("paciente")
+        val paciente = PacienteDataSource(nombre, apellido, dni, sexo, fechaNacimiento, localidad, tipoTratamiento, usuario)
+        db.child(usuario).setValue(paciente).addOnSuccessListener {
+
+            Toast.makeText(context, "Datos guardados OK", Toast.LENGTH_SHORT).show()
+
+        }.addOnFailureListener {
+            Toast.makeText(context, "Los datos no se guardaron", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -103,7 +120,6 @@ class UserFragment : Fragment() {
                 R.id.rbMasculino -> sexo = rbMasculino.text.toString()
                 R.id.rbOtroSexo -> sexo = rbOtroSexo.text.toString()
             }
-
         }
     }
 
