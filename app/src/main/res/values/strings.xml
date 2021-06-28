@@ -37,19 +37,35 @@
     <string name="almuerzo">Almuerzo</string>
     <string name="merienda">Merienda</string>
     <string name="cena">Cena</string>
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome!"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
+
+    // Usuario
+    <string name="nombre">Nombre</string>
+    <string name="apellido">Apellido</string>
+    <string name="dni">DNI</string>
+    <string name="fechaNacimiento">Fecha de nacimiento</string>
+    <string name="localidad">Localidad</string>
+    <string name="usuario">Usuario</string>
+    <string name="contraseña">Contraseña</string>
+    //sexo
+    <string name="sexo">Sexo</string>
+    <string name="masculino">Masculino</string>
+    <string name="femenino">Femenino</string>
+    <string name="otro">Otro</string>
+    //Tipo de tratamiento
+    <string name="tipotraTamiento">Tipo de tratamiento</string>
+    <string name="anorexia">Anorexia</string>
+    <string name="bulimia">Bulimia</string>
+    <string name="Obesidad">Obesidad</string>
 
     // Navigation drawer
     <string name="navigation_drawer_open">"open"</string>
     <string name="navigation_drawer_close">"close"</string>
-  
+
+    // Tipos de tratamiento
+    <string-array name="tratamientos">
+        <item>Anorexia</item>
+        <item>Bulimia</item>
+        <item>Obesidad</item>
+    </string-array>
 
 </resources>
