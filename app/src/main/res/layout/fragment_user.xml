@@ -165,53 +165,10 @@
                 android:text="@string/anorexia" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:id="@+id/til_usuario"
-            app:endIconMode="clear_text"
-            app:helperTextTextColor="@color/teal_700"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/etUsuario"
-                android:hint="@string/usuario"
-                android:imeOptions="actionNext"
-                android:inputType="text"
-                android:clickable="false"
-                android:focusable="false"
-                app:endIconMode="password_toggle"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:id="@+id/til_contraseña"
-            app:endIconMode="clear_text"
-            app:helperTextTextColor="@color/teal_700"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/etContraseña"
-                android:hint="@string/contraseña"
-                android:imeOptions="actionNext"
-                android:inputType="textPassword"
-                android:clickable="false"
-                android:focusable="false"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
         <Button
             android:id="@+id/btnGuardar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:text="Guardar"

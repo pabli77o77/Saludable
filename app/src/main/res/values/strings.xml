@@ -21,7 +21,14 @@
     //Buttons
     <string name="signup">Registrarse</string>
     <string name="login">Acceder</string>
+
+    // Menu
+    <string name="inicio">Inicio</string>
+    <string name="registro">Nuevo registro</string>
     <string name="logout">Logout</string>
+    <string name="misDatos">Mis datos</string>
+    <string name="opciones">Opciones</string>
+    <string name="settings">Settings</string>
 
     //strings Registro
     <string name="tipoComida">Tipo de comida</string>
