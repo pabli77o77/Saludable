@@ -23,15 +23,8 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <!--<style name="Theme.Saludable.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />-->
-
     <style name="Theme.Saludable.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="BottomNavigation">
-        <item name="android:background">@color/primary_dark</item>
-        <item name="itemIconTint">@color/primary_light</item>
-        <item name="itemTextColor">@color/primary_light</item>
-    </style>
 
     <style name="Toolbar">
         <item name="android:background">@color/primary_dark</item>
@@ -39,5 +32,8 @@
         <item name="itemTextColor">@color/primary_light</item>
     </style>
 
+    <style name="datePickerTheme" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:colorAccent">@color/primary_dark</item>
+    </style>
 
 </resources>

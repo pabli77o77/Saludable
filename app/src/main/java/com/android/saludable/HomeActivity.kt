@@ -19,7 +19,7 @@ class HomeActivity : AppCompatActivity() {
 
 
         val bundle: Bundle? = intent.extras
-        val email: String? = bundle?.getString("email")
+        val email: String? = bundle?.getString("usuario")
         setUp(email?:"")
     }
 
