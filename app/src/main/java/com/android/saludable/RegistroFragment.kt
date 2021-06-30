@@ -1,24 +1,48 @@
 package com.android.saludable
 
+import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
-import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.TextView
+import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
+import com.android.saludable.api.IPaciente
+import com.android.saludable.api.IRegistro
+import com.android.saludable.data.RegistroModel
 import com.android.saludable.databinding.FragmentRegistroBinding
-import com.android.saludable.databinding.FragmentUserBinding
-import kotlinx.android.synthetic.main.dropdown_item.*
+import com.google.gson.Gson
+import kotlinx.android.synthetic.main.dialog_view.view.*
 import kotlinx.android.synthetic.main.fragment_registro.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.*
+import retrofit2.converter.gson.GsonConverterFactory
+import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
+private const val BASE_URL = "https://saludapi-default-rtdb.firebaseio.com/"
 
 class RegistroFragment : Fragment() {
 
     private var _binding : FragmentRegistroBinding? = null
     private val binding get() = _binding!!
+    private lateinit var userId : String
+    private var LOCAL_DB : String = "LocalDb"
 
     override fun onResume() {
         super.onResume()
@@ -45,6 +69,10 @@ class RegistroFragment : Fragment() {
         getTipoComida()
         checkBoxActions()
         tipoComidaActions()
+        obtenerIdUsuario()
+        binding.btnGuardar.setOnClickListener(){
+            insertarRegistroAlimentario()
+        }
     }
 
     private fun getTipoComida() {
@@ -131,4 +159,76 @@ class RegistroFragment : Fragment() {
             binding.chkHambreNo.isChecked = isChecked
         }
     }
+
+    private fun obtenerIdUsuario() {
+        val pref = context?.getSharedPreferences(LOCAL_DB, 0)
+        userId = pref?.getString("user_id", "").toString()
+    }
+
+    private fun insertarRegistroAlimentario(){
+        val api = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val responseHolder = api.create(IRegistro::class.java)
+        val registroPost = RegistroModel(
+            spinnerComidas.selectedItem.toString(),
+            etComidaPrincipal.text.toString(),
+            etComidaSecundaria.text.toString(),
+            etBebida.text.toString(),
+            chk_postreSi.isChecked,
+            etPostre.text.toString(),
+            chk_tentacionSi.isChecked,
+            etAlimentoTentacion.text.toString(),
+            chk_hambreSi.isChecked,
+            obtenerFechaYHoraActual()
+        )
+
+        try {
+                val call = responseHolder.insertarRegistroPost("$userId/.json", registroPost)
+                call.enqueue(object : Callback<RegistroModel> {
+                    override fun onResponse(
+                        call: Call<RegistroModel>,
+                        response: Response<RegistroModel>
+                    ) {
+                        alert("Nuevo Registro", "Datos guardados correctamente")
+                    }
+
+                    override fun onFailure(call: Call<RegistroModel>, t: Throwable) {
+                        Toast.makeText(context, "${t.message}", Toast.LENGTH_SHORT).show()
+                    }
+
+                })
+        }catch (e : Exception){
+            Toast.makeText(context, "${e.message}", Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
+    private fun obtenerFechaYHoraActual(): String {
+
+        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+        val currentDate = sdf.format(Date())
+        val fechaHora : String = currentDate.toString()
+        return fechaHora
+    }
+
+    private fun alert(titulo: String, mensaje: String) {
+        val view = View.inflate(context, R.layout.dialog_view, null)
+        val builder = AlertDialog.Builder(context)
+        builder.setView(view)
+
+        val dialog = builder.create()
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        view.tv_alert_titulo.setText(titulo)
+        view.tv_alert_mensaje.setText(mensaje)
+        view.btnConfirmAlert.setOnClickListener {
+            val fragment = activity?.supportFragmentManager?.beginTransaction()
+            fragment?.replace(R.id.fragment_container, InicioFragment())?.commit()
+            dialog.dismiss()
+        }
+    }
+
 }

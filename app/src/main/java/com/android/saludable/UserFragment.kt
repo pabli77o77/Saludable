@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GetTokenResult
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.dialog_view.view.*
 import kotlinx.android.synthetic.main.fragment_user.*
 import kotlinx.coroutines.*
 import retrofit2.*
@@ -32,7 +33,7 @@ import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 
-const val BASE_URL = "https://saludapi-default-rtdb.firebaseio.com/"
+private const val BASE_URL = "https://saludapi-default-rtdb.firebaseio.com/"
 
 class UserFragment : Fragment() {
 
@@ -88,7 +89,7 @@ class UserFragment : Fragment() {
             val paciente = PacienteModel(nombre, apellido, dni, sexo, fechaNacimiento, localidad, tipoTratamiento, usuario)
             db.child(usuario).setValue(paciente).addOnSuccessListener {
 
-                Toast.makeText(context, "Datos guardados OK", Toast.LENGTH_SHORT).show()
+                alert("Datos de usuario", "Datos actulizados correctamente!")
 
             }.addOnFailureListener {
                 Toast.makeText(context, "Los datos no se guardaron", Toast.LENGTH_SHORT).show()
@@ -99,8 +100,6 @@ class UserFragment : Fragment() {
         if(userId.isNotEmpty()) {
             getDataUsuario()
         }
-
-        getAuthUser()
     }
 
     private fun showDatePickerDialog() {
@@ -130,7 +129,7 @@ class UserFragment : Fragment() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            val response = api.getPaciente4("$userId/.json").awaitResponse()
+            val response = api.getPaciente("$userId/.json").awaitResponse()
             if(response.isSuccessful) {
                 withContext(Dispatchers.Main) {
                     if(response.body() != null) {
@@ -162,25 +161,21 @@ class UserFragment : Fragment() {
         }
     }
 
-    private fun getAuthUser() : String? {
-        var idToken : String? = ""
-        try {
-            val mUser : FirebaseUser? = FirebaseAuth.getInstance().currentUser
-            mUser?.getIdToken(true)
-                ?.addOnCompleteListener(OnCompleteListener<GetTokenResult> {
-                    fun onComplete(task: Task<GetTokenResult>) {
-                        if(task.isSuccessful) {
-                            idToken = task.getResult()?.token
-                        }else {
-                            Toast.makeText(context, "Error AUTH TOKEN ", Toast.LENGTH_SHORT).show()
-                        }
+    private fun alert(titulo: String, mensaje: String) {
+        val view = View.inflate(context, R.layout.dialog_view, null)
+        val builder = AlertDialog.Builder(context)
+        builder.setView(view)
 
-                    }
-                })
-        }catch (e : Exception) {
-            Toast.makeText(context, "Error AUTH TOKEN: ${e.message}", Toast.LENGTH_SHORT).show()
+        val dialog = builder.create()
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        view.tv_alert_titulo.setText(titulo)
+        view.tv_alert_mensaje.setText(mensaje)
+        view.btnConfirmAlert.setOnClickListener {
+            val fragment = activity?.supportFragmentManager?.beginTransaction()
+            fragment?.replace(R.id.fragment_container, InicioFragment())?.commit()
+            dialog.dismiss()
         }
-        return  idToken
     }
 
 }
