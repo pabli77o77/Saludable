@@ -68,7 +68,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         FirebaseAuth.getInstance().signOut()
         val pref = applicationContext.getSharedPreferences(LOCAL_DB, 0)
         pref.edit().putString("user_id", "").apply()
-        onBackPressed()
+        //onBackPressed()
+        startActivity(Intent(this, AuthActivity::class.java))
+        finish()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

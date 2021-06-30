@@ -6,18 +6,218 @@
     android:layout_height="match_parent"
     tools:context=".RegistroFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/dashboard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Registro"
-        android:textSize="36sp"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.52" />
+        app:layout_constraintTop_toTopOf="parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="30dp"
+            android:orientation="vertical">
+
+            <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="@string/tipoComida"
+               style="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"/>
+
+            <Spinner
+                android:id="@+id/spinnerComidas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem"/>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_comidaPrincipal"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:endIconMode="clear_text">
+
+                <EditText
+                    android:id="@+id/etComidaPrincipal"
+                    android:layout_width="match_parent"
+                    android:layout_height="169dp"
+                    android:hint="@string/comidaPrincipal"
+                    android:imeOptions="actionNext"
+                    android:inputType="textMultiLine"
+                    android:maxLength="200" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_comidaSecundaria"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:endIconMode="clear_text">
+
+                <EditText
+                    android:id="@+id/etComidaSecundaria"
+                    android:layout_width="match_parent"
+                    android:layout_height="169dp"
+                    android:hint="@string/comidaSecundaria"
+                    android:imeOptions="actionNext"
+                    android:inputType="textMultiLine"
+                    android:maxLength="200" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:id="@+id/til_bebida"
+                app:endIconMode="clear_text"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/etBebida"
+                    android:hint="@string/bebida"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLength="100"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tvPreguntaPostre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/preguntaPostre" />
+
+            <CheckBox
+                android:id="@+id/chk_postreSi"
+                android:layout_width="match_parent"
+                android:layout_height="33dp"
+                android:buttonTint="@color/primary_dark"
+                android:buttonTintMode="src_in"
+                android:checked="true"
+                android:text="Si"
+                android:visibility="visible" />
+
+            <CheckBox
+                android:id="@+id/chk_postreNo"
+                android:layout_width="match_parent"
+                android:layout_height="33dp"
+                android:buttonTint="@color/primary"
+                android:buttonTintMode="src_in"
+                android:text="No"
+                android:visibility="visible" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:id="@+id/til_postre"
+                app:endIconMode="clear_text"
+                android:visibility="visible"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/etPostre"
+                    android:hint="@string/postre"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tvPreguntaTentacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/preguntaTentacion" />
+
+            <CheckBox
+                android:id="@+id/chk_tentacionSi"
+                android:layout_width="match_parent"
+                android:layout_height="33dp"
+                android:buttonTint="@color/primary_dark"
+                android:buttonTintMode="src_in"
+                android:checked="true"
+                android:text="Si" />
+
+            <CheckBox
+                android:id="@+id/chk_tentacionNo"
+                android:layout_width="match_parent"
+                android:layout_height="33dp"
+                android:buttonTint="@color/primary"
+                android:buttonTintMode="src_in"
+                android:text="No" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:id="@+id/til_tentacion"
+                app:endIconMode="clear_text"
+                android:visibility="visible"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/etAlimentoTentacion"
+                    android:hint="@string/alimentoTentacion"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/preguntaHambre" />
+
+            <CheckBox
+                android:id="@+id/chk_hambreSi"
+                android:layout_width="match_parent"
+                android:layout_height="33dp"
+                android:buttonTint="@color/primary_dark"
+                android:buttonTintMode="src_in"
+                android:checked="true"
+                android:text="Si" />
+
+            <CheckBox
+                android:id="@+id/chk_hambreNo"
+                android:layout_width="match_parent"
+                android:layout_height="33dp"
+                android:layout_marginBottom="20dp"
+                android:buttonTint="@color/primary"
+                android:buttonTintMode="src_in"
+                android:text="No" />
+
+
+            <Button
+                android:id="@+id/btnGuardar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="30dp"
+                android:layout_weight="1"
+                android:text="Guardar"
+                app:icon="@drawable/ic_save" />
+
+
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

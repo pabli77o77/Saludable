@@ -5,13 +5,20 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.NonNull
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.android.saludable.databinding.ActivityAuthBinding
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GetTokenResult
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class AuthActivity : AppCompatActivity() {
@@ -20,7 +27,7 @@ class AuthActivity : AppCompatActivity() {
     private lateinit var userId : String
     private var LOCAL_DB : String = "LocalDb"
     private var SHARED_USER_ID : String = "user_id"
-
+    private lateinit var firebaseUser : FirebaseUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,12 +61,15 @@ class AuthActivity : AppCompatActivity() {
 
         binding.btnLogin.setOnClickListener {
             if (binding.txtEmail.text.toString().isNotEmpty() && binding.txtPasword.text.toString().isNotEmpty()) {
+
                 FirebaseAuth.getInstance()
                     .signInWithEmailAndPassword(
                         binding.txtEmail.text.toString(),
                         binding.txtPasword.text.toString()
                     ).addOnCompleteListener {
                         if (it.isSuccessful) {
+                            firebaseUser = it.result!!.user!!
+                            val tk : String = firebaseUser.getIdToken(true).toString()
                             userId = it.result?.user?.uid.toString()
                             saveUserLogged(userId)
                             showHome(userId ?: "")
@@ -95,6 +105,7 @@ class AuthActivity : AppCompatActivity() {
             putExtra("uid", userId)
         }
         startActivity(mainIntent)
+        finish()
     }
 
     private fun getUserLogged() {

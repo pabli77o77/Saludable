@@ -75,4 +75,12 @@
         <item>Obesidad</item>
     </string-array>
 
+    // Tipos de comida
+    <string-array name="comidas">
+        <item>Desayuno</item>
+        <item>Almuerzo</item>
+        <item>Merienda</item>
+        <item>Cena</item>
+    </string-array>
+
 </resources>

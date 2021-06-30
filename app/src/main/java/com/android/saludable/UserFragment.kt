@@ -2,6 +2,7 @@ package com.android.saludable
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
@@ -16,7 +17,11 @@ import androidx.appcompat.widget.SearchView
 import com.android.saludable.api.IPaciente
 import com.android.saludable.data.PacienteModel
 import com.android.saludable.databinding.FragmentUserBinding
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GetTokenResult
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_user.*
@@ -63,8 +68,6 @@ class UserFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setRadioGroupActions()
-
         etFechaNacimiento.setOnClickListener {
             showDatePickerDialog()
         }
@@ -79,7 +82,7 @@ class UserFragment : Fragment() {
             val localidad = binding.etLocalidad.text.toString()
             val fechaNacimiento = binding.etFechaNacimiento.text.toString()
             val tipoTratamiento = binding.actvTipoTratamiento.text.toString()
-            val usuario = userId//"HAKWDAUIK9bhV7gRzLWPddFGUux1"
+            val usuario = userId
 
             db = FirebaseDatabase.getInstance().getReference("paciente")
             val paciente = PacienteModel(nombre, apellido, dni, sexo, fechaNacimiento, localidad, tipoTratamiento, usuario)
@@ -97,6 +100,7 @@ class UserFragment : Fragment() {
             getDataUsuario()
         }
 
+        getAuthUser()
     }
 
     private fun showDatePickerDialog() {
@@ -108,17 +112,6 @@ class UserFragment : Fragment() {
 
     fun onDateSelected(day:Int, month:Int, year:Int) {
         etFechaNacimiento.setText("$day/$month/$year")
-    }
-
-    private fun setRadioGroupActions() {
-        binding.rgSexo.setOnCheckedChangeListener {
-                rgSexo, i ->
-            when(i){
-                R.id.rbFemenino -> sexo = rbFemenino.text.toString()
-                R.id.rbMasculino -> sexo = rbMasculino.text.toString()
-                R.id.rbOtroSexo -> sexo = rbOtroSexo.text.toString()
-            }
-        }
     }
 
     private fun getTipoTratamiento() {
@@ -167,6 +160,27 @@ class UserFragment : Fragment() {
 
             }
         }
+    }
+
+    private fun getAuthUser() : String? {
+        var idToken : String? = ""
+        try {
+            val mUser : FirebaseUser? = FirebaseAuth.getInstance().currentUser
+            mUser?.getIdToken(true)
+                ?.addOnCompleteListener(OnCompleteListener<GetTokenResult> {
+                    fun onComplete(task: Task<GetTokenResult>) {
+                        if(task.isSuccessful) {
+                            idToken = task.getResult()?.token
+                        }else {
+                            Toast.makeText(context, "Error AUTH TOKEN ", Toast.LENGTH_SHORT).show()
+                        }
+
+                    }
+                })
+        }catch (e : Exception) {
+            Toast.makeText(context, "Error AUTH TOKEN: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+        return  idToken
     }
 
 }
