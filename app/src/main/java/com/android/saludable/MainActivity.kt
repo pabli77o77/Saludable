@@ -1,8 +1,10 @@
 package com.android.saludable
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -14,7 +16,10 @@ import androidx.fragment.app.Fragment
 import com.android.saludable.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.dialog_view.view.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -23,11 +28,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var binding : ActivityMainBinding
     private var LOCAL_DB : String = "LocalDb"
     private lateinit var userId : String
+    private lateinit var auth : FirebaseAuth
+    private lateinit var db : FirebaseDatabase
+    private var dbReference : DatabaseReference? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         initNavigationDrawer()
         changeFragment(InicioFragment())
@@ -35,6 +44,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val bundle: Bundle? = intent.extras
         userId = bundle?.getString("uid").toString()
     }
+
+
 
     private fun initNavigationDrawer() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
@@ -68,9 +79,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         FirebaseAuth.getInstance().signOut()
         val pref = applicationContext.getSharedPreferences(LOCAL_DB, 0)
         pref.edit().putString("user_id", "").apply()
-        //onBackPressed()
+        onBackPressed()
         startActivity(Intent(this, AuthActivity::class.java))
-        finish()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -86,6 +96,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
+    private fun alert(titulo: String, mensaje: String) {
+        val view = View.inflate(this, R.layout.dialog_view, null)
+        val builder = AlertDialog.Builder(this)
+        builder.setView(view)
 
+        val dialog = builder.create()
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        view.tv_alert_titulo.setText(titulo)
+        view.tv_alert_mensaje.setText(mensaje)
+        view.btnConfirmAlert.setOnClickListener {
+            dialog.dismiss()
+        }
+    }
 
 }

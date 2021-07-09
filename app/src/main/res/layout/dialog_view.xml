@@ -45,6 +45,7 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/ivAlert"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:background="@drawable/bg_iv"

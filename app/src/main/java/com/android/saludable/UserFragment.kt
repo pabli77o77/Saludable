@@ -2,36 +2,25 @@ package com.android.saludable
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.RadioGroup
 import android.widget.Toast
-import androidx.annotation.UiThread
-import androidx.appcompat.widget.SearchView
+import androidx.core.view.get
 import com.android.saludable.api.IPaciente
 import com.android.saludable.data.PacienteModel
 import com.android.saludable.databinding.FragmentUserBinding
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.GetTokenResult
 import com.google.firebase.database.*
-import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.dialog_view.view.*
 import kotlinx.android.synthetic.main.fragment_user.*
 import kotlinx.coroutines.*
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Exception
-import java.util.*
-import kotlin.collections.ArrayList
 
 private const val BASE_URL = "https://saludapi-default-rtdb.firebaseio.com/"
 
@@ -39,7 +28,7 @@ class UserFragment : Fragment() {
 
     private var _binding : FragmentUserBinding? = null
     private val binding get() = _binding!!
-    lateinit var sexo : String
+    private var sexo : String = "Sin datos"
     private lateinit var db : DatabaseReference
     private lateinit var userId : String
 
@@ -63,9 +52,9 @@ class UserFragment : Fragment() {
         _binding = FragmentUserBinding.inflate(inflater, container, false)
         return binding.root
 
+
     }
 
-    @SuppressLint("ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -75,15 +64,18 @@ class UserFragment : Fragment() {
 
         getTipoTratamiento()
 
+
         btnGuardar.setOnClickListener {
             val nombre = binding.etNombre.text.toString()
             val apellido = binding.etApellido.text.toString()
             val dni = binding.etDni.text.toString()
-            val sexo = sexo
             val localidad = binding.etLocalidad.text.toString()
             val fechaNacimiento = binding.etFechaNacimiento.text.toString()
             val tipoTratamiento = binding.actvTipoTratamiento.text.toString()
             val usuario = userId
+            if(rbMasculino.isChecked) sexo = "Masculino"
+            if(rbFemenino.isChecked) sexo = "Femenino"
+            if(rbOtroSexo.isChecked) sexo = "Otro"
 
             db = FirebaseDatabase.getInstance().getReference("paciente")
             val paciente = PacienteModel(nombre, apellido, dni, sexo, fechaNacimiento, localidad, tipoTratamiento, usuario)
@@ -103,9 +95,7 @@ class UserFragment : Fragment() {
     }
 
     private fun showDatePickerDialog() {
-        val datePicker = DatePickerFragment {
-                day, month, year -> onDateSelected(day, month, year)
-        }
+        val datePicker = DatePickerFragment { day, month, year -> onDateSelected(day, month, year) }
         datePicker.show(parentFragmentManager, "datePicker")
     }
 

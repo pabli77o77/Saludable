@@ -1,9 +1,6 @@
 package com.android.saludable
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,27 +9,14 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.liveData
-import com.android.saludable.api.IPaciente
 import com.android.saludable.api.IRegistro
 import com.android.saludable.data.RegistroModel
 import com.android.saludable.databinding.FragmentRegistroBinding
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.dialog_view.view.*
 import kotlinx.android.synthetic.main.fragment_registro.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 private const val BASE_URL = "https://saludapi-default-rtdb.firebaseio.com/"
@@ -173,16 +157,16 @@ class RegistroFragment : Fragment() {
 
         val responseHolder = api.create(IRegistro::class.java)
         val registroPost = RegistroModel(
-            spinnerComidas.selectedItem.toString(),
+            etBebida.text.toString(),
             etComidaPrincipal.text.toString(),
             etComidaSecundaria.text.toString(),
-            etBebida.text.toString(),
+            obtenerFechaYHoraActual(),
+            chk_hambreSi.isChecked,
             chk_postreSi.isChecked,
+            etAlimentoTentacion.text.toString(),
             etPostre.text.toString(),
             chk_tentacionSi.isChecked,
-            etAlimentoTentacion.text.toString(),
-            chk_hambreSi.isChecked,
-            obtenerFechaYHoraActual()
+            spinnerComidas.selectedItem.toString()
         )
 
         try {

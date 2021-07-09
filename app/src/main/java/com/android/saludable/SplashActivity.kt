@@ -11,7 +11,6 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.splash_activity)
 
         startTimer()
-        finish()
     }
 
     private fun startTimer(){

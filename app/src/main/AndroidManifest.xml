@@ -10,12 +10,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Saludable">
-        <activity android:name=".HomeActivity" />
         <activity android:name=".AuthActivity"
             android:theme="@style/Theme.NoActionBar"/>
         <activity
             android:name=".SplashActivity"
-            android:label="@string/title_activity_splash"
+            android:label="@string/app_name"
             android:theme="@style/Theme.Saludable.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
